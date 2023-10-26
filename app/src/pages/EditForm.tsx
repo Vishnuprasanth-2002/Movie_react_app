@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { updateMovie } from "../services/api";
+// import { updateMovie } from "../services/api";
 const EditForm = () => {
   const { id } = useParams();
 
@@ -17,7 +17,7 @@ const EditForm = () => {
     //     setIsLoading(false);
     //   }
     // }
-    // getMovieFromAPI() 
+    // getMovieFromAPI()
   }, [id]);
   return (
     <>
