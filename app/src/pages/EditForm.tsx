@@ -1,5 +1,24 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { updateMovie } from "../services/api";
 const EditForm = () => {
+  const { id } = useParams();
+
+  useEffect(() => {
+    console.log("Getting info of ", id);
+    // async function getMovieFromAPI() {
+    //   setIsLoading(true);
+    //   try {
+    //     const response = await updateMovie();
+    //     setMovies(response.data);
+    //   } catch (error) {
+    //     console.log(error);
+    //   } finally {
+    //     setIsLoading(false);
+    //   }
+    // }
+    // getMovieFromAPI() 
+  }, [id]);
   return (
     <>
       <main className="container">
