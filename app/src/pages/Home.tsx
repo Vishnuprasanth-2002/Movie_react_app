@@ -2,18 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getMovies, deleteMovie } from "../services/api";
 import Layout from "../components/layout";
+import { IMovie, IShowError } from "../components/types";
 
 import "@picocss/pico";
 
-interface IMovie {
-  id: number;
-  title: string;
-  year: number;
-}
-interface IShowError {
-  action: string;
-  msg: string;
-}
 function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
