@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { IMovie, IMovieAdd } from "../components/types";
 import Layout from "../components/layout";
 import { updateMovie } from "../services/api";
@@ -11,10 +11,10 @@ interface IEditForm {
 const EditForm: React.FC<IEditForm> = ({ movie }) => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [editValue, setEditValue] = useState({
+  const editValue = {
     title: movie.title,
     year: movie.year,
-  });
+  };
 
   useEffect(() => {
     console.log("Getting info of ", id);
@@ -32,7 +32,11 @@ const EditForm: React.FC<IEditForm> = ({ movie }) => {
   return (
     <>
       <Layout title={`EditMovie${movie.title}`}>
-        <Form handleAddMovie={handleEditMovie} emptyMovie={editValue} type="edit"/>
+        <Form
+          handleAddMovie={handleEditMovie}
+          emptyMovie={editValue}
+          type="edit"
+        />
       </Layout>
     </>
   );
