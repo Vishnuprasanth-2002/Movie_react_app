@@ -1,11 +1,19 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { IMovieAdd } from "./types";
+
 interface IForm {
   handleAddMovie: (movie: IMovieAdd) => void;
+  cancelModal?: () => void;
   emptyMovie: IMovieAdd;
   type?: string;
 }
-const Form: React.FC<IForm> = ({ handleAddMovie, emptyMovie, type }) => {
+
+const Form: React.FC<IForm> = ({
+  handleAddMovie,
+  cancelModal,
+  emptyMovie,
+  type,
+}) => {
   const [movie, setMovie] = useState({
     title: emptyMovie.title,
     year: emptyMovie.year,
@@ -14,14 +22,22 @@ const Form: React.FC<IForm> = ({ handleAddMovie, emptyMovie, type }) => {
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     setMovie({ ...movie, [name]: value });
-    console.log(movie);
   }
+
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     handleAddMovie(movie);
   }
+
+  function handleCancelClick(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    if (cancelModal) {
+      cancelModal();
+    }
+  }
+
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
+    <form onSubmit={handleSubmit}>
       <label htmlFor="title">
         Title
         <input
@@ -30,7 +46,7 @@ const Form: React.FC<IForm> = ({ handleAddMovie, emptyMovie, type }) => {
           name="title"
           value={movie.title}
           placeholder="Title"
-          onChange={(e) => handleChange(e)}
+          onChange={handleChange}
           required
         />
       </label>
@@ -43,7 +59,7 @@ const Form: React.FC<IForm> = ({ handleAddMovie, emptyMovie, type }) => {
           name="year"
           value={movie.year}
           placeholder="Year"
-          onChange={(e) => handleChange(e)}
+          onChange={handleChange}
           required
         />
       </label>
@@ -51,14 +67,15 @@ const Form: React.FC<IForm> = ({ handleAddMovie, emptyMovie, type }) => {
       {type === "edit" ? (
         <>
           <button type="submit">Save</button>
-          <button>cancel</button>
+          <button onClick={handleCancelClick}>Cancel</button>
         </>
       ) : (
         <>
-          <button type="submit">add movie</button>
+          <button type="submit">Add Movie</button>
         </>
       )}
     </form>
   );
 };
+
 export default Form;
