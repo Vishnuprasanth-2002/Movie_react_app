@@ -1,59 +1,39 @@
-import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-// import { updateMovie } from "../services/api";
-const EditForm = () => {
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { IMovie, IMovieAdd } from "../components/types";
+import Layout from "../components/layout";
+import { updateMovie } from "../services/api";
+import Form from "../components/form";
+
+interface IEditForm {
+  movie: IMovie;
+}
+const EditForm: React.FC<IEditForm> = ({ movie }) => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const [editValue, setEditValue] = useState({
+    title: movie.title,
+    year: movie.year,
+  });
 
   useEffect(() => {
     console.log("Getting info of ", id);
-    // async function getMovieFromAPI() {
-    //   setIsLoading(true);
-    //   try {
-    //     const response = await updateMovie();
-    //     setMovies(response.data);
-    //   } catch (error) {
-    //     console.log(error);
-    //   } finally {
-    //     setIsLoading(false);
-    //   }
-    // }
-    // getMovieFromAPI()
   }, [id]);
+
+  async function handleEditMovie(editedmovie: IMovieAdd) {
+    try {
+      const response = await updateMovie(editedmovie, movie.id);
+      console.log(response);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <>
-      <main className="container">
-        <form>
-          <label htmlFor="title">
-            Title
-            <input
-              type="text"
-              id="title"
-              name="title"
-              placeholder="Title"
-              required
-            />
-          </label>
-
-          <label htmlFor="year">
-            Year
-            <input
-              type="text"
-              id="year"
-              name="year"
-              placeholder="Year"
-              required
-            />
-          </label>
-          <div className="grid">
-            <Link to="/">
-              <button>add</button>
-            </Link>
-            <Link to="/">
-              <button>Cancel</button>
-            </Link>
-          </div>
-        </form>
-      </main>
+      <Layout title={`EditMovie${movie.title}`}>
+        <Form handleAddMovie={handleEditMovie} emptyMovie={editValue} type="edit"/>
+      </Layout>
     </>
   );
 };

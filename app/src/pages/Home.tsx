@@ -6,7 +6,11 @@ import { IMovie, IShowError } from "../components/types";
 
 import "@picocss/pico";
 
-function Home() {
+interface IHome {
+  handleEdit: (movie: IMovie) => void;
+}
+
+const Home: React.FC<IHome> = ({ handleEdit }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [movies, setMovies] = useState<IMovie[]>([]);
@@ -42,15 +46,14 @@ function Home() {
     try {
       await deleteMovie(id);
       setShowModalMsg({
-        action: "succes",
+        action: "Succes",
         msg: "deleted",
       });
-      // setMovies((prevMovies) => prevMovies.filter((movie) => movie.id !== id));
     } catch (error) {
       if (error instanceof Error) {
         console.error("Error deleting movie:", error);
         setShowModalMsg({
-          action: "failed",
+          action: "Failed",
           msg: error.message,
         });
       } else {
@@ -86,8 +89,8 @@ function Home() {
                   <h3>{m.year}</h3>
 
                   <div className="grid">
-                    <Link to={`/edit/${m.id}`} className="pico-link">
-                      <button>Edit</button>
+                    <Link to={`/edit/${m.id}`}>
+                      <button onClick={() => handleEdit(m)}>Edit</button>
                     </Link>
                     <button onClick={() => handleDelete(m.id)}>delete</button>
                     {showModal && (
@@ -114,6 +117,6 @@ function Home() {
       </Layout>
     </>
   );
-}
+};
 
 export default Home;

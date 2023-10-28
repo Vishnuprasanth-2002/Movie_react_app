@@ -1,17 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import Layout from "../components/layout";
 import { addMovie } from "../services/api";
-import { useState } from "react";
+import Form from "../components/form";
+import { IMovieAdd } from "../components/types";
 
 function AddForm() {
   const navigate = useNavigate();
-  const [movie, setMovie] = useState({
+  const movie = {
     title: "",
     year: 0,
-  });
+  };
 
-  async function handleAddMovie(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function handleAddMovie(movie: IMovieAdd) {
     try {
       const moviePayload = {
         title: movie.title,
@@ -25,42 +25,12 @@ function AddForm() {
       console.log(error);
     }
   }
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
-    setMovie({ ...movie, [name]: value });
-    console.log(movie);
-  }
 
   return (
     <>
       <Layout title="addForm">
         <h1>AddForm</h1>
-        <form onSubmit={(e) => handleAddMovie(e)}>
-          <label htmlFor="title">
-            Title
-            <input
-              type="text"
-              id="title"
-              name="title"
-              placeholder="Title"
-              onChange={(e) => handleChange(e)}
-              required
-            />
-          </label>
-
-          <label htmlFor="year">
-            Year
-            <input
-              type="number"
-              id="year"
-              name="year"
-              placeholder="Year"
-              onChange={(e) => handleChange(e)}
-              required
-            />
-          </label>
-          <button type="submit">add movie</button>
-        </form>
+        <Form handleAddMovie={handleAddMovie} emptyMovie={movie} />
       </Layout>
     </>
   );
