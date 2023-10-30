@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { IMovieAdd } from "./types";
+import LoadingIcon from "./Loading/LoadingIcon";
 
 interface IForm {
   handleAddMovie: (movie: IMovieAdd) => void;
   cancelModal?: () => void;
-  emptyMovie: IMovieAdd;
+  emptyMovie?: IMovieAdd;
   type?: string;
+  loading: boolean;
 }
 
 const Form: React.FC<IForm> = ({
@@ -13,11 +15,14 @@ const Form: React.FC<IForm> = ({
   cancelModal,
   emptyMovie,
   type,
+  loading,
 }) => {
-  const [movie, setMovie] = useState({
-    title: emptyMovie.title,
-    year: emptyMovie.year,
-  });
+  const [movie, setMovie] = useState(
+    emptyMovie || {
+      title: "",
+      year: 0,
+    }
+  );
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -57,7 +62,7 @@ const Form: React.FC<IForm> = ({
           type="number"
           id="year"
           name="year"
-          value={movie.year}
+          value={movie.year?.toString() || ""}
           placeholder="Year"
           onChange={handleChange}
           required
@@ -71,7 +76,9 @@ const Form: React.FC<IForm> = ({
         </>
       ) : (
         <>
-          <button type="submit">Add Movie</button>
+          <button type="submit">
+            {loading ? <LoadingIcon /> : <>Add Movie</>}
+          </button>
         </>
       )}
     </form>
