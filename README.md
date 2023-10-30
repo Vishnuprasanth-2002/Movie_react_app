@@ -1,5 +1,7 @@
 # creating movie app using api call
 
+    using async function
+
 ### how to run
 
     nnpm run dev
