@@ -2,6 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { IMovie } from "../components/types";
+import LoadingIcon from "./Loading/LoadingIcon";
 
 interface ArticleProps {
   movie: IMovie;
@@ -10,7 +11,12 @@ interface ArticleProps {
   isLoading: boolean;
 }
 
-const Article: React.FC<ArticleProps> = ({ movie, handleEdit, handleDelete, isLoading }) => {
+const Article: React.FC<ArticleProps> = ({
+  movie,
+  handleEdit,
+  handleDelete,
+  isLoading,
+}) => {
   return (
     <article>
       <h1>{movie.title}</h1>
@@ -21,7 +27,7 @@ const Article: React.FC<ArticleProps> = ({ movie, handleEdit, handleDelete, isLo
           <button onClick={() => handleEdit(movie)}>Edit</button>
         </Link>
         <button onClick={() => handleDelete(movie.id)} disabled={isLoading}>
-          {isLoading ? "Loading..." : "Delete"}
+          {isLoading ? <LoadingIcon /> : "Delete"}
         </button>
       </div>
     </article>
