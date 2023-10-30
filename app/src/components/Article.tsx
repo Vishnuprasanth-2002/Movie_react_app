@@ -1,5 +1,5 @@
 // Article.tsx
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { IMovie } from "../components/types";
 import LoadingIcon from "./Loading/LoadingIcon";
@@ -17,6 +17,11 @@ const Article: React.FC<ArticleProps> = ({
   handleDelete,
   isLoading,
 }) => {
+  const [load, setLoad] = useState(false);
+  function handle(id: number) {
+    handleDelete(id);
+    setLoad(true);
+  }
   return (
     <article>
       <h1>{movie.title}</h1>
@@ -26,8 +31,8 @@ const Article: React.FC<ArticleProps> = ({
         <Link to={`/edit/${movie.id}`}>
           <button onClick={() => handleEdit(movie)}>Edit</button>
         </Link>
-        <button onClick={() => handleDelete(movie.id)} disabled={isLoading}>
-          {isLoading ? <LoadingIcon /> : "Delete"}
+        <button onClick={() => handle(movie.id)} disabled={load}>
+          {load ? <LoadingIcon /> : "Delete"}
         </button>
       </div>
     </article>
