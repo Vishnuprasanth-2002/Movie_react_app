@@ -8,14 +8,12 @@ interface ArticleProps {
   movie: IMovie;
   handleEdit: (movie: IMovie) => void;
   handleDelete: (id: number) => void;
-  isLoading: boolean;
 }
 
 const Article: React.FC<ArticleProps> = ({
   movie,
   handleEdit,
   handleDelete,
-  isLoading,
 }) => {
   const [load, setLoad] = useState(false);
   function handle(id: number) {
@@ -26,7 +24,6 @@ const Article: React.FC<ArticleProps> = ({
     <article>
       <h1>{movie.title}</h1>
       <h3>{movie.year}</h3>
-
       <div className="grid">
         <Link to={`/edit/${movie.id}`}>
           <button onClick={() => handleEdit(movie)}>Edit</button>

@@ -237,7 +237,6 @@ const Home: React.FC<IHome> = ({ handleEdit }) => {
                 movie={m}
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
-                isLoading={isLoading}
               />
             ))}
             {showModal && (
